@@ -1,6 +1,8 @@
 # dvc-project-template
 DVC project template
 
+## Reference repository:
+[official reference repo](https://github.com/iterative/example-get-started)
 ## STEPS -
 
 ### STEP 01- Create a repository by using template repository
@@ -19,6 +21,11 @@ conda activate ./env
 OR
 ```bash
 source activate ./env
+```
+
+### one shot create and activate environment 
+```bash
+conda create --prefix ./env python=3.7 -y && source activate ./env
 ```
 
 ### STEP 04- install the requirements
