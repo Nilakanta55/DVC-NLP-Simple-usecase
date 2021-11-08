@@ -6,7 +6,7 @@ import logging
 from src.utils.common import create_directories, read_yaml, get_df
 from src.utils.featurize import save_matrix 
 import numpy as np
-from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 
 
 STAGE = "Two"
@@ -27,7 +27,7 @@ def main(config_path, params_path):
     train_data_path = os.path.join(prepared_data_dir_path, artifacts["TRAIN_DATA"])
     test_data_path = os.path.join(prepared_data_dir_path, artifacts["TEST_DATA"])
 
-    featurized_data_dir_path = os.path.join(artifacts["ARTIFACTS_DIR"],artifacts["PREPARED_DATA"])
+    featurized_data_dir_path = os.path.join(artifacts["ARTIFACTS_DIR"],artifacts["FEATURIZED_DATA"])
     create_directories([featurized_data_dir_path])
     
     featurized_train_data_path = os.path.join(featurized_data_dir_path, artifacts["FEATURIZED_OUT_TRAIN"])
@@ -47,7 +47,7 @@ def main(config_path, params_path):
     bag_of_words.fit(train_words)
     train_word_binary_matrix = bag_of_words.transform(train_words)
 
-    tfidf = TfidfVectorizer(smooth_idf=False)
+    tfidf = TfidfTransformer(smooth_idf=False)
     tfidf.fit(train_word_binary_matrix)
     train_word_binary_matrix = tfidf.transform(train_word_binary_matrix)
     save_matrix(df_train, train_word_binary_matrix, featurized_train_data_path)
