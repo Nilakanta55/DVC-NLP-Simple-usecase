@@ -4,8 +4,8 @@ stages:
     cmd: python src/stage_01_prepare.py --config=configs/config.yaml --params=params.yaml
     deps:
     - path: configs/config.yaml
-      md5: e16d8f73974b36547cce2f7d7fd11e54
-      size: 338
+      md5: 246ca60526e23e24eb691606353839b3
+      size: 387
     - path: data/data.xml
       md5: a304afb96060aad90176268345e10355
       size: 37891850
