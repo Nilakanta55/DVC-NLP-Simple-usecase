@@ -20,6 +20,7 @@ logging.basicConfig(
     )
 
 
+
 def main(config_path):
     config = read_yaml(config_path)
 
@@ -35,9 +36,9 @@ def main(config_path):
 
     labels = np.squeeze(matrix[:, 1].toarray())
     X = matrix[:,2:]
-    
-    predictions_by_class = model.predict_proba()
-    predictions = prediction_by_class[: 1]
+
+    predictions_by_class = model.predict_proba(X)
+    predictions = predictions_by_class[:, 1]
 
     PRC_json_path = config["plots"]["PRC"]
     ROC_json_path = config["plots"]["ROC"]
@@ -53,7 +54,7 @@ def main(config_path):
     save_json(scores_json_path, scores)
 
     precision, recall, prc_threshold = metrics.precision_recall_curve(labels, predictions)
-
+    
     nth_point = math.ceil(len(prc_threshold)/1000)
     prc_points = list(zip(precision, recall, prc_threshold))[::nth_point]
 
@@ -63,21 +64,23 @@ def main(config_path):
             for p, r, t in prc_points
         ]
     }
-
+    
     save_json(PRC_json_path, prc_data)
-
+    
     fpr, tpr, roc_threshold = metrics.roc_curve(labels, predictions)
+
 
 if __name__ == '__main__':
     args = argparse.ArgumentParser()
     args.add_argument("--config", "-c", default="configs/config.yaml")
+    args.add_argument("--params", "-p", default="params.yaml")
     parsed_args = args.parse_args()
 
     try:
         logging.info("\n********************")
-        logging.info(">>>>> stage {STAGE}} started <<<<<")
+        logging.info(f">>>>> stage {STAGE} started <<<<<")
         main(config_path=parsed_args.config)
-        logging.info(">>>>> stage {STAGE} completed!<<<<<\n")
+        logging.info(f">>>>> stage {STAGE} completed!<<<<<\n")
     except Exception as e:
         logging.exception(e)
         raise e
