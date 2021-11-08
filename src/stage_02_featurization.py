@@ -5,6 +5,8 @@ from tqdm import tqdm
 import logging
 from src.utils.common import create_directories, read_yaml, get_df
 import numpy as np
+from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+
 
 STAGE = "Two"
 
