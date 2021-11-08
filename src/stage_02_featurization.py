@@ -33,8 +33,8 @@ def main(config_path, params_path):
     featurized_train_data_path = os.path.join(featurized_data_dir_path, artifacts["FEATURIZED_OUT_TRAIN"])
     featurized_test_data_path = os.path.join(featurized_data_dir_path, artifacts["FEATURIZED_OUT_TEST"])
 
-    max_features = params["featurized"]["max_features"]
-    ngrams = params["featurized"]["ngrams"]
+    max_features = params["featurize"]["max_features"]
+    ngrams = params["featurize"]["ngrams"]
 
     df_train = get_df(train_data_path)
 
@@ -50,7 +50,7 @@ def main(config_path, params_path):
     tfidf = TfidfTransformer(smooth_idf=False)
     tfidf.fit(train_word_binary_matrix)
     train_word_binary_matrix = tfidf.transform(train_word_binary_matrix)
-    
+
     save_matrix(df_train, train_word_binary_matrix, featurized_train_data_path)
 
     df_test = get_df(test_data_path)
