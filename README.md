@@ -6,7 +6,7 @@ DVC project template
 
 * [DVC STUDIO](https://studio.iterative.ai/)
 
-* [MY VIEW](https://studio.iterative.ai/user/Nilakanta55/views/DVC_DL_TF_DEMO-1vrqbqsu9i)
+* [MY VIEW](https://studio.iterative.ai/user/Nilakanta55/views/DVC-NLP-Simple-usecase-ls9z5setn5)
 ## STEPS -
 
 ### STEP 01- Create a repository by using template repository
