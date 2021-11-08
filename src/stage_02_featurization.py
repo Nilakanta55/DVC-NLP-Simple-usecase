@@ -3,8 +3,8 @@ import os
 import shutil
 from tqdm import tqdm
 import logging
-from src.utils.common import create_directories, read_yaml
-
+from src.utils.common import create_directories, read_yaml, get_df
+import numpy as np
 
 STAGE = "Two"
 
@@ -25,11 +25,19 @@ def main(config_path, params_path):
     test_data_path = os.path.join(prepared_data_dir_path, artifacts["TEST_DATA"])
 
     featurized_data_dir_path = os.path.join(artifacts["ARTIFACTS_DIR"],artifacts["PREPARED_DATA"])
-    create_directories([])
+    create_directories([featurized_data_dir_path])
     
     featurized_train_data_path = os.path.join(featurized_data_dir_path, artifacts["FEATURIZED_OUT_TRAIN"])
     featurized_test_data_path = os.path.join(featurized_data_dir_path, artifacts["FEATURIZED_OUT_TEST"])
 
+    max_features = params["featurized"]["max_features"]
+    ngrams = params["featurized"]["ngrams"]
+
+    df_train = get_df(train_data_path)
+
+    train_words = np.array(df_train.text.str.lower().values.astype("U"))
+
+    print(train_words[:20])
 
 if __name__ == '__main__':
     args = argparse.ArgumentParser()
@@ -39,9 +47,9 @@ if __name__ == '__main__':
 
     try:
         logging.info("\n********************")
-        logging.info(">>>>> stage {STAGE}} started <<<<<")
+        logging.info(f">>>>> stage {STAGE} started <<<<<")
         main(config_path=parsed_args.config, params_path=parsed_args.params)
-        logging.info(">>>>> stage {STAGE} completed!<<<<<\n")
+        logging.info(f">>>>> stage {STAGE} completed!<<<<<\n")
     except Exception as e:
         logging.exception(e)
         raise e
